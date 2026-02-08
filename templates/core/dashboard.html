@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Dashboard - TrustEscrow Nigeria{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1>Welcome back, {{ user.get_full_name }}! <i class="bi bi-emoji-smile"></i></h1>
+            <p class="text-muted">Here's what's happening with your transactions</p>
+        </div>
+    </div>
+    
+    <!-- Quick Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-label">Wallet Balance</div>
+                <div class="stat-value">₦{{ stats.wallet_balance|floatformat:2|intcomma }}</div>
+                <small class="text-muted">Available to withdraw</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card warning">
+                <div class="stat-label">In Escrow</div>
+                <div class="stat-value">₦{{ stats.escrow_balance|floatformat:2|intcomma }}</div>
+                <small class="text-muted">Held securely</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card success">
+                <div class="stat-label">Total Earned</div>
+                <div class="stat-value">₦{{ stats.total_earned|floatformat:2|intcomma }}</div>
+                <small class="text-muted">Lifetime earnings</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card info">
+                <div class="stat-label">Transactions</div>
+                <div class="stat-value">{{ stats.total_transactions }}</div>
+                <small class="text-muted">{{ stats.active_transactions }} active</small>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="{% url 'transactions:create' %}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> New Transaction
+                        </a>
+                        <a href="{% url 'transactions:my_transactions' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-list-ul"></i> View All Transactions
+                        </a>
+                        <a href="{% url 'accounts:profile' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-person"></i> My Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pending Actions -->
+    {% if pending_approvals or pending_work %}
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                <h5><i class="bi bi-exclamation-triangle"></i> Action Required</h5>
+                {% if pending_approvals %}
+                <p class="mb-1">
+                    <strong>{{ pending_approvals }}</strong> transaction(s) waiting for your approval.
+                    <a href="{% url 'transactions:my_transactions' %}?filter=as_client&status=COMPLETED" class="alert-link">Review now</a>
+                </p>
+                {% endif %}
+                {% if pending_work %}
+                <p class="mb-0">
+                    <strong>{{ pending_work }}</strong> job(s) waiting for you to complete.
+                    <a href="{% url 'transactions:my_transactions' %}?filter=as_provider&status=IN_PROGRESS" class="alert-link">View jobs</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Recent Transactions -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Transactions</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_transactions %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Party</th>
+                                    <th>Amount</th>
+                                    <th>Service</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for txn in recent_transactions %}
+                                <tr>
+                                    <td><strong>{{ txn.reference }}</strong></td>
+                                    <td>
+                                        {% if txn.client == user %}
+                                            <span class="badge bg-info">You (Client)</span><br>
+                                            Provider: {{ txn.service_provider.get_full_name }}
+                                        {% else %}
+                                            <span class="badge bg-success">You (Provider)</span><br>
+                                            Client: {{ txn.client.get_full_name }}
+                                        {% endif %}
+                                    </td>
+                                    <td><strong>₦{{ txn.amount|floatformat:2|intcomma }}</strong></td>
+                                    <td>{{ txn.service_description|truncatewords:5 }}</td>
+                                    <td>
+                                        <span class="status-badge status-{{ txn.status|lower }}">
+                                            {{ txn.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>{{ txn.created_at|date:"M d, Y" }}</td>
+                                    <td>
+                                        <a href="{% url 'transactions:detail' txn.id %}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox" style="font-size: 4rem; color: var(--text-gray);"></i>
+                        <p class="mt-3">No transactions yet</p>
+                        <a href="{% url 'transactions:create' %}" class="btn btn-primary">Create Your First Transaction</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

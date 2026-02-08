@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bank Details - TrustEscrow Nigeria{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0"><i class="bi bi-bank"></i> Bank Details</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">
+                        Add your bank details to receive payments from completed transactions.
+                    </p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.bank_name.id_for_label }}" class="form-label">Bank Name</label>
+                            {{ form.bank_name }}
+                            {% if form.bank_name.errors %}
+                                <div class="text-danger small">{{ form.bank_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.account_number.id_for_label }}" class="form-label">Account Number</label>
+                            {{ form.account_number }}
+                            {% if form.account_number.errors %}
+                                <div class="text-danger small">{{ form.account_number.errors.0 }}</div>
+                            {% endif %}
+                            <small class="form-text text-muted">10-digit account number</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.account_name.id_for_label }}" class="form-label">Account Name</label>
+                            {{ form.account_name }}
+                            {% if form.account_name.errors %}
+                                <div class="text-danger small">{{ form.account_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i>
+                            <strong>Note:</strong> Ensure your account details are correct. Payments cannot be reversed once sent.
+                        </div>
+                        
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Save Bank Details
+                            </button>
+                            <a href="{% url 'accounts:profile' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to Profile
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

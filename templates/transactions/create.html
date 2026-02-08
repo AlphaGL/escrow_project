@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Transaction - TrustEscrow Nigeria{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0"><i class="bi bi-plus-circle"></i> Create New Transaction</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i>
+                        <strong>How it works:</strong> Create a transaction, pay into escrow, and the service provider will be notified to start work. Payment is only released when you approve the completed work.
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <h5 class="mb-3">Service Provider Details</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.service_provider_email.id_for_label }}" class="form-label">
+                                    Provider's Email
+                                </label>
+                                {{ form.service_provider_email }}
+                                {% if form.service_provider_email.errors %}
+                                    <div class="text-danger small">{{ form.service_provider_email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.service_provider_phone.id_for_label }}" class="form-label">
+                                    Provider's Phone
+                                </label>
+                                {{ form.service_provider_phone }}
+                                {% if form.service_provider_phone.errors %}
+                                    <div class="text-danger small">{{ form.service_provider_phone.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p class="text-muted small mb-4">Provide either email or phone number of the service provider</p>
+                        
+                        <hr>
+                        
+                        <h5 class="mb-3">Transaction Details</h5>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.amount.id_for_label }}" class="form-label">
+                                Transaction Amount (₦)
+                            </label>
+                            {{ form.amount }}
+                            {% if form.amount.errors %}
+                                <div class="text-danger small">{{ form.amount.errors.0 }}</div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                Min: ₦1,000 | Max: ₦500,000 | Platform fee: 2.5%
+                            </small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.service_category.id_for_label }}" class="form-label">
+                                Service Category
+                            </label>
+                            {{ form.service_category }}
+                            {% if form.service_category.errors %}
+                                <div class="text-danger small">{{ form.service_category.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.service_description.id_for_label }}" class="form-label">
+                                Service Description
+                            </label>
+                            {{ form.service_description }}
+                            {% if form.service_description.errors %}
+                                <div class="text-danger small">{{ form.service_description.errors.0 }}</div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                Clearly describe what you need done
+                            </small>
+                        </div>
+                        
+                        <div class="alert alert-warning mt-4">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <strong>Important:</strong> Once you create this transaction, you'll be redirected to make payment. The money will be held in escrow until the service is completed and approved.
+                        </div>
+                        
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-check-circle"></i> Create & Proceed to Payment
+                            </button>
+                            <a href="{% url 'core:dashboard' %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Raise Dispute - TrustEscrow Nigeria{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Raise Dispute</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h5><i class="bi bi-info-circle"></i> Before You Proceed</h5>
+                        <p class="mb-2">Raising a dispute should be a last resort. Please consider:</p>
+                        <ul class="mb-2">
+                            <li>Communicating with the service provider through the message system</li>
+                            <li>Giving them a reasonable chance to fix any issues</li>
+                            <li>Being specific about what went wrong</li>
+                        </ul>
+                        <p class="mb-0">Our admin team will review both sides and make a fair decision within 3-5 business days.</p>
+                    </div>
+                    
+                    <h5 class="mb-3">Transaction Details</h5>
+                    <div class="card bg-light mb-4">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-md-4 text-muted">Reference:</div>
+                                <div class="col-md-8"><strong>{{ transaction.reference }}</strong></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-4 text-muted">Amount:</div>
+                                <div class="col-md-8"><strong>₦{{ transaction.amount|floatformat:2|intcomma }}</strong></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-4 text-muted">Service Provider:</div>
+                                <div class="col-md-8"><strong>{{ transaction.service_provider.get_full_name }}</strong></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-muted">Service:</div>
+                                <div class="col-md-8">{{ transaction.service_description|truncatewords:15 }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.reason.id_for_label }}" class="form-label">
+                                <strong>Reason for Dispute</strong>
+                            </label>
+                            {{ form.reason }}
+                            {% if form.reason.errors %}
+                                <div class="text-danger small">{{ form.reason.errors.0 }}</div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                Be as detailed as possible. Include specific issues, dates, and any attempts to resolve the matter.
+                            </small>
+                        </div>
+                        
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <strong>Important:</strong> Once you raise a dispute, the transaction will be frozen and reviewed by our admin team. The decision will be final and may result in full refund, partial refund, or full payment to the provider.
+                        </div>
+                        
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-danger btn-lg">
+                                <i class="bi bi-exclamation-triangle"></i> Raise Dispute
+                            </button>
+                            <a href="{% url 'transactions:detail' transaction.id %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

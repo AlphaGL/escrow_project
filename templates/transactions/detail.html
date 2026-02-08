@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Transaction {{ transaction.reference }} - TrustEscrow Nigeria{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <a href="{% url 'transactions:my_transactions' %}" class="btn btn-outline-secondary mb-3">
+                <i class="bi bi-arrow-left"></i> Back to Transactions
+            </a>
+            <h1>Transaction {{ transaction.reference }}</h1>
+            <span class="status-badge status-{{ transaction.status|lower }} fs-5">
+                {{ transaction.get_status_display }}
+            </span>
+            {% if transaction.is_disputed %}
+                <span class="badge bg-danger fs-6 ms-2">
+                    <i class="bi bi-exclamation-triangle"></i> Disputed
+                </span>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Transaction Details -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Transaction Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Client:</div>
+                        <div class="col-md-8">
+                            <strong>{{ transaction.client.get_full_name }}</strong>
+                            {% if transaction.client == user %}
+                                <span class="badge bg-info ms-2">You</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Service Provider:</div>
+                        <div class="col-md-8">
+                            <strong>{{ transaction.service_provider.get_full_name }}</strong>
+                            {% if transaction.service_provider == user %}
+                                <span class="badge bg-success ms-2">You</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Amount:</div>
+                        <div class="col-md-8">
+                            <strong class="fs-4">₦{{ transaction.amount|floatformat:2|intcomma }}</strong>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Platform Fee:</div>
+                        <div class="col-md-8">₦{{ transaction.platform_fee|floatformat:2|intcomma }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Provider Receives:</div>
+                        <div class="col-md-8">
+                            <strong>₦{{ transaction.service_provider_amount|floatformat:2|intcomma }}</strong>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Service Category:</div>
+                        <div class="col-md-8">{{ transaction.service_category|default:"Not specified" }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Description:</div>
+                        <div class="col-md-8">{{ transaction.service_description }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 text-muted">Created:</div>
+                        <div class="col-md-8">{{ transaction.created_at|date:"F d, Y h:i A" }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Actions</h5>
+                </div>
+                <div class="card-body">
+                    {% if transaction.status == 'PENDING' and transaction.client == user %}
+                        <a href="{% url 'payments:initiate' transaction.id %}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-credit-card"></i> Pay Now
+                        </a>
+                        <p class="text-muted mt-2">Make payment to start the transaction</p>
+                    {% endif %}
+                    
+                    {% if transaction.status == 'PAID' and transaction.service_provider == user %}
+                        <form method="post" action="{% url 'transactions:start_work' transaction.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-play-circle"></i> Accept & Start Work
+                            </button>
+                        </form>
+                        <p class="text-muted mt-2">Accept the job and begin working</p>
+                    {% endif %}
+                    
+                    {% if transaction.status == 'IN_PROGRESS' and transaction.service_provider == user %}
+                        <form method="post" action="{% url 'transactions:complete_work' transaction.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-check-circle"></i> Mark as Completed
+                            </button>
+                        </form>
+                        <p class="text-muted mt-2">Submit the completed work for client review</p>
+                    {% endif %}
+                    
+                    {% if transaction.status == 'COMPLETED' and transaction.client == user and not transaction.is_disputed %}
+                        <div class="d-flex gap-2">
+                            <form method="post" action="{% url 'transactions:approve' transaction.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="bi bi-check-circle-fill"></i> Approve & Release Payment
+                                </button>
+                            </form>
+                            <a href="{% url 'transactions:dispute' transaction.id %}" class="btn btn-danger btn-lg">
+                                <i class="bi bi-exclamation-triangle"></i> Raise Dispute
+                            </a>
+                        </div>
+                        <div class="alert alert-info mt-3">
+                            <i class="bi bi-clock"></i>
+                            <strong>Auto-release:</strong> Payment will be automatically released on {{ transaction.auto_release_date|date:"F d, Y" }} if no action is taken.
+                        </div>
+                    {% endif %}
+                    
+                    {% if transaction.is_disputed %}
+                        <div class="alert alert-warning">
+                            <h5><i class="bi bi-exclamation-triangle"></i> Dispute in Progress</h5>
+                            <p><strong>Reason:</strong> {{ transaction.dispute_reason }}</p>
+                            <p class="mb-0"><strong>Raised on:</strong> {{ transaction.dispute_raised_at|date:"F d, Y h:i A" }}</p>
+                            <hr>
+                            <p class="mb-0">Our admin team is reviewing this dispute and will resolve it within 3-5 business days.</p>
+                        </div>
+                    {% endif %}
+                    
+                    {% if transaction.status == 'RELEASED' %}
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <strong>Transaction Completed!</strong>
+                            Payment of ₦{{ transaction.service_provider_amount|floatformat:2|intcomma }} has been released to {{ transaction.service_provider.get_full_name }}.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Messages -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Messages</h5>
+                </div>
+                <div class="card-body">
+                    <div class="messages-container mb-3" style="max-height: 400px; overflow-y: auto;">
+                        {% if messages %}
+                            {% for msg in messages %}
+                            <div class="message mb-3 {% if msg.sender == user %}text-end{% endif %}">
+                                <div class="d-inline-block text-start" style="max-width: 70%;">
+                                    <div class="{% if msg.sender == user %}bg-primary text-white{% else %}bg-light{% endif %} p-3 rounded">
+                                        <strong>{{ msg.sender.get_full_name }}</strong>
+                                        {% if msg.sender == user %}<small class="ms-2">(You)</small>{% endif %}
+                                        <p class="mb-0 mt-2">{{ msg.message }}</p>
+                                        {% if msg.attachment %}
+                                            <a href="{{ msg.attachment.url }}" target="_blank" class="d-block mt-2">
+                                                <i class="bi bi-paperclip"></i> View Attachment
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <small class="text-muted">{{ msg.created_at|date:"M d, Y h:i A" }}</small>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted text-center">No messages yet</p>
+                        {% endif %}
+                    </div>
+                    
+                    <hr>
+                    
+                    <form method="post" action="{% url 'transactions:send_message' transaction.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ message_form.message }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Attachment (optional)</label>
+                            {{ message_form.attachment }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <!-- Timeline -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Timeline</h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        {% if transaction.created_at %}
+                        <div class="timeline-item">
+                            <i class="bi bi-circle-fill text-primary"></i>
+                            <div>
+                                <strong>Transaction Created</strong>
+                                <br><small class="text-muted">{{ transaction.created_at|date:"M d, Y h:i A" }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if transaction.paid_at %}
+                        <div class="timeline-item">
+                            <i class="bi bi-circle-fill text-success"></i>
+                            <div>
+                                <strong>Payment Made</strong>
+                                <br><small class="text-muted">{{ transaction.paid_at|date:"M d, Y h:i A" }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if transaction.work_started_at %}
+                        <div class="timeline-item">
+                            <i class="bi bi-circle-fill text-info"></i>
+                            <div>
+                                <strong>Work Started</strong>
+                                <br><small class="text-muted">{{ transaction.work_started_at|date:"M d, Y h:i A" }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if transaction.work_completed_at %}
+                        <div class="timeline-item">
+                            <i class="bi bi-circle-fill text-warning"></i>
+                            <div>
+                                <strong>Work Completed</strong>
+                                <br><small class="text-muted">{{ transaction.work_completed_at|date:"M d, Y h:i A" }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if transaction.released_at %}
+                        <div class="timeline-item">
+                            <i class="bi bi-circle-fill text-success"></i>
+                            <div>
+                                <strong>Payment Released</strong>
+                                <br><small class="text-muted">{{ transaction.released_at|date:"M d, Y h:i A" }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if transaction.dispute_raised_at %}
+                        <div class="timeline-item">
+                            <i class="bi bi-circle-fill text-danger"></i>
+                            <div>
+                                <strong>Dispute Raised</strong>
+                                <br><small class="text-muted">{{ transaction.dispute_raised_at|date:"M d, Y h:i A" }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.timeline-item:before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 15px;
+    width: 2px;
+    height: calc(100% - 10px);
+    background: #e5e7eb;
+}
+
+.timeline-item:last-child:before {
+    display: none;
+}
+
+.timeline-item i {
+    font-size: 10px;
+    margin-top: 5px;
+}
+</style>
+{% endblock %}

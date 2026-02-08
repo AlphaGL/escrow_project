@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}My Profile - TrustEscrow Nigeria{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Profile Card -->
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    {% if user.profile_image %}
+                        <img src="{{ user.profile_image.url }}" alt="{{ user.get_full_name }}" 
+                             class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3"
+                             style="width: 150px; height: 150px; font-size: 3rem;">
+                            {{ user.first_name.0 }}{{ user.last_name.0 }}
+                        </div>
+                    {% endif %}
+                    
+                    <h3>{{ user.get_full_name }}</h3>
+                    <p class="text-muted">{{ user.get_user_type_display }}</p>
+                    
+                    <div class="mt-3">
+                        <span class="badge bg-primary">
+                            <i class="bi bi-star-fill"></i> {{ user.trust_score|floatformat:2 }} Trust Score
+                        </span>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary btn-sm w-100 mb-2">
+                            <i class="bi bi-pencil"></i> Edit Profile
+                        </a>
+                        <a href="{% url 'accounts:bank_details' %}" class="btn btn-outline-primary btn-sm w-100">
+                            <i class="bi bi-bank"></i> Bank Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Card -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Statistics</h5>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Transactions:</span>
+                        <strong>{{ user.total_completed_transactions }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Disputes:</span>
+                        <strong class="text-warning">{{ user.total_disputes }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Member Since:</span>
+                        <strong>{{ user.created_at|date:"M Y" }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Email Verified:</span>
+                        {% if user.is_email_verified %}
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        {% else %}
+                            <i class="bi bi-x-circle-fill text-danger"></i>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <!-- Contact Information -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Contact Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Email:</div>
+                        <div class="col-md-8">
+                            <strong>{{ user.email }}</strong>
+                            {% if user.is_email_verified %}
+                                <i class="bi bi-check-circle-fill text-success ms-2"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Phone:</div>
+                        <div class="col-md-8">
+                            <strong>{{ user.phone_number }}</strong>
+                            {% if user.is_phone_verified %}
+                                <i class="bi bi-check-circle-fill text-success ms-2"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 text-muted">Bio:</div>
+                        <div class="col-md-8">
+                            {% if user.bio %}
+                                {{ user.bio }}
+                            {% else %}
+                                <em class="text-muted">No bio provided</em>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bank Details -->
+            {% if user.bank_name %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Bank Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted">Bank Name:</div>
+                        <div class="col-md-8"><strong>{{ user.bank_name }}</strong></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted">Account Number:</div>
+                        <div class="col-md-8"><strong>{{ user.account_number }}</strong></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 text-muted">Account Name:</div>
+                        <div class="col-md-8"><strong>{{ user.account_name }}</strong></div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Ratings & Reviews -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Ratings & Reviews ({{ ratings.count }})</h5>
+                    {% if avg_rating > 0 %}
+                        <div class="text-warning mt-2">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= avg_rating %}
+                                    <i class="bi bi-star-fill"></i>
+                                {% else %}
+                                    <i class="bi bi-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                            <span class="text-muted ms-2">{{ avg_rating|floatformat:1 }} / 5.0</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% if ratings %}
+                        {% for rating in ratings %}
+                        <div class="border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>{{ rating.rater.get_full_name }}</strong>
+                                    <div class="text-warning">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= rating.rating %}
+                                                <i class="bi bi-star-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <small class="text-muted">{{ rating.created_at|date:"M d, Y" }}</small>
+                            </div>
+                            {% if rating.review %}
+                                <p class="mt-2 mb-0">{{ rating.review }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted text-center">No ratings yet</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

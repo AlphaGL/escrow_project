@@ -1,0 +1,36 @@
+# TrustEscrow Nigeria - Requirements
+# Minimal setup for development and testing
+
+# Core Django
+Django==4.2.7
+djangorestframework==3.14.0
+
+# Environment & Configuration
+python-decouple==3.8
+
+# Database (SQLite is built-in, PostgreSQL is optional)
+# psycopg2-binary==2.9.9  # Uncomment if using PostgreSQL
+
+# Image handling
+Pillow==10.1.0
+
+# Forms
+django-crispy-forms>=2.3
+crispy-bootstrap5==2024.10
+
+# CORS headers
+django-cors-headers==4.3.1
+
+# Static files
+whitenoise==6.6.0
+
+# HTTP requests (for Paystack integration)
+requests==2.31.0
+
+# Production server (optional for development)
+gunicorn==21.2.0
+
+# Background tasks (optional - can be added later)
+celery==5.3.4
+redis==5.0.1
+django-celery-beat==2.5.0

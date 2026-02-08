@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}How It Works - TrustEscrow Nigeria{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 4rem 0;">
+    <div class="container text-center">
+        <h1 class="display-4">How TrustEscrow Works</h1>
+        <p class="lead">Simple, secure, and transparent escrow payments in 3 easy steps</p>
+    </div>
+</section>
+
+<!-- Steps -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="mb-4" style="font-size: 4rem; color: #1e40af;">
+                            <i class="bi bi-1-circle-fill"></i>
+                        </div>
+                        <h3>Client Pays into Escrow</h3>
+                        <p class="mt-3">Client creates a transaction and pays the agreed amount. Money is held securely in TrustEscrow, not released to the provider yet.</p>
+                        <ul class="list-unstyled text-start mt-4">
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Money is safe</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Work can now begin</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Provider is notified</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="mb-4" style="font-size: 4rem; color: #1e40af;">
+                            <i class="bi bi-2-circle-fill"></i>
+                        </div>
+                        <h3>Provider Completes Work</h3>
+                        <p class="mt-3">Service provider accepts the job and completes the work as agreed. Both parties can communicate through the platform.</p>
+                        <ul class="list-unstyled text-start mt-4">
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Provider starts work</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Secure messaging</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Work submitted</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="mb-4" style="font-size: 4rem; color: #10b981;">
+                            <i class="bi bi-3-circle-fill"></i>
+                        </div>
+                        <h3>Payment Released</h3>
+                        <p class="mt-3">Client reviews the completed work. If satisfied, they approve and payment is released. Or payment auto-releases after 5 days.</p>
+                        <ul class="list-unstyled text-start mt-4">
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Client approves</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Auto-release option</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> Provider gets paid</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Detailed Process -->
+<section class="py-5" style="background: #f9fafb;">
+    <div class="container">
+        <h2 class="text-center mb-5">The Complete Process</h2>
+        
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4><i class="bi bi-shield-lock-fill text-primary"></i> For Clients (Buyers)</h4>
+                        <ol class="mt-3">
+                            <li class="mb-2">Create an account and verify your details</li>
+                            <li class="mb-2">Create a new transaction with service details</li>
+                            <li class="mb-2">Enter provider's email or phone number</li>
+                            <li class="mb-2">Pay the amount via card, bank transfer, or USSD</li>
+                            <li class="mb-2">Money is held in secure escrow</li>
+                            <li class="mb-2">Communicate with provider through messages</li>
+                            <li class="mb-2">Review completed work</li>
+                            <li class="mb-2">Approve payment or raise dispute if needed</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4><i class="bi bi-briefcase-fill text-success"></i> For Service Providers (Sellers)</h4>
+                        <ol class="mt-3">
+                            <li class="mb-2">Create an account and add bank details</li>
+                            <li class="mb-2">Receive notification of new transaction</li>
+                            <li class="mb-2">Review job details and accept</li>
+                            <li class="mb-2">Start working on the project</li>
+                            <li class="mb-2">Communicate with client for clarifications</li>
+                            <li class="mb-2">Complete work and mark as done</li>
+                            <li class="mb-2">Wait for client approval (max 5 days)</li>
+                            <li class="mb-2">Receive payment directly to your bank account</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Key Features -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Key Features</h2>
+        
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="text-center">
+                    <i class="bi bi-shield-fill-check" style="font-size: 3rem; color: #10b981;"></i>
+                    <h5 class="mt-3">Secure Escrow</h5>
+                    <p>Money is held safely until work is completed</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <i class="bi bi-clock-history" style="font-size: 3rem; color: #f59e0b;"></i>
+                    <h5 class="mt-3">Auto-Release</h5>
+                    <p>Payment auto-releases after 5 days if no issues</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <i class="bi bi-chat-dots-fill" style="font-size: 3rem; color: #3b82f6;"></i>
+                    <h5 class="mt-3">Secure Messaging</h5>
+                    <p>Communicate directly within the platform</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <i class="bi bi-people-fill" style="font-size: 3rem; color: #8b5cf6;"></i>
+                    <h5 class="mt-3">Dispute Resolution</h5>
+                    <p>Fair resolution by experienced admin team</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fees -->
+<section class="py-5" style="background: #f9fafb;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body text-center p-5">
+                        <h2>Simple, Transparent Pricing</h2>
+                        <div class="display-1 text-primary my-4">2.5%</div>
+                        <p class="lead">Platform fee per transaction</p>
+                        <ul class="list-unstyled mt-4">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> No hidden charges</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> No setup fees</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> No monthly subscription</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Pay only when you transact</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5">
+    <div class="container text-center">
+        <h2>Ready to Get Started?</h2>
+        <p class="lead text-muted">Join thousands of Nigerians using TrustEscrow for safe transactions</p>
+        <div class="mt-4">
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg me-3">
+                <i class="bi bi-person-plus"></i> Create Free Account
+            </a>
+            <a href="{% url 'core:faq' %}" class="btn btn-outline-primary btn-lg">
+                <i class="bi bi-question-circle"></i> View FAQs
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

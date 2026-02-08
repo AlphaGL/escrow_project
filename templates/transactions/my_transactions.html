@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}My Transactions - TrustEscrow Nigeria{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1><i class="bi bi-list-ul"></i> My Transactions</h1>
+            <p class="text-muted">View and manage all your transactions</p>
+        </div>
+    </div>
+    
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="btn-group" role="group">
+                        <a href="?filter=all" class="btn btn-{% if filter_type == 'all' %}primary{% else %}outline-primary{% endif %}">
+                            All Transactions
+                        </a>
+                        <a href="?filter=as_client" class="btn btn-{% if filter_type == 'as_client' %}primary{% else %}outline-primary{% endif %}">
+                            As Client
+                        </a>
+                        <a href="?filter=as_provider" class="btn btn-{% if filter_type == 'as_provider' %}primary{% else %}outline-primary{% endif %}">
+                            As Provider
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form method="get" class="d-flex gap-2">
+                        <input type="hidden" name="filter" value="{{ filter_type }}">
+                        <select name="status" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Statuses</option>
+                            <option value="PENDING" {% if selected_status == 'PENDING' %}selected{% endif %}>Pending Payment</option>
+                            <option value="PAID" {% if selected_status == 'PAID' %}selected{% endif %}>Paid - In Escrow</option>
+                            <option value="IN_PROGRESS" {% if selected_status == 'IN_PROGRESS' %}selected{% endif %}>Work In Progress</option>
+                            <option value="COMPLETED" {% if selected_status == 'COMPLETED' %}selected{% endif %}>Work Completed</option>
+                            <option value="RELEASED" {% if selected_status == 'RELEASED' %}selected{% endif %}>Payment Released</option>
+                            <option value="DISPUTED" {% if selected_status == 'DISPUTED' %}selected{% endif %}>Disputed</option>
+                            <option value="CANCELLED" {% if selected_status == 'CANCELLED' %}selected{% endif %}>Cancelled</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Transactions List -->
+    <div class="card">
+        <div class="card-body">
+            {% if transactions %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Party</th>
+                                <th>Amount</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for txn in transactions %}
+                            <tr>
+                                <td><strong>{{ txn.reference }}</strong></td>
+                                <td>
+                                    {% if txn.client == user %}
+                                        <span class="badge bg-info mb-1">You (Client)</span><br>
+                                        <small>Provider: {{ txn.service_provider.get_full_name }}</small>
+                                    {% else %}
+                                        <span class="badge bg-success mb-1">You (Provider)</span><br>
+                                        <small>Client: {{ txn.client.get_full_name }}</small>
+                                    {% endif %}
+                                </td>
+                                <td><strong>₦{{ txn.amount|floatformat:2|intcomma }}</strong></td>
+                                <td>
+                                    <div>{{ txn.service_description|truncatewords:8 }}</div>
+                                    {% if txn.service_category %}
+                                        <small class="text-muted">{{ txn.service_category }}</small>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="status-badge status-{{ txn.status|lower }}">
+                                        {{ txn.get_status_display }}
+                                    </span>
+                                    {% if txn.is_disputed %}
+                                        <br><span class="badge bg-danger mt-1">
+                                            <i class="bi bi-exclamation-triangle"></i> Disputed
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div>{{ txn.created_at|date:"M d, Y" }}</div>
+                                    <small class="text-muted">{{ txn.created_at|date:"h:i A" }}</small>
+                                </td>
+                                <td>
+                                    <a href="{% url 'transactions:detail' txn.id %}" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox" style="font-size: 4rem; color: #ccc;"></i>
+                    <h4 class="mt-3">No Transactions Found</h4>
+                    <p class="text-muted">
+                        {% if filter_type == 'as_client' %}
+                            You haven't created any transactions as a client yet.
+                        {% elif filter_type == 'as_provider' %}
+                            You haven't received any transactions as a provider yet.
+                        {% else %}
+                            You don't have any transactions yet.
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'transactions:create' %}" class="btn btn-primary mt-3">
+                        <i class="bi bi-plus-circle"></i> Create Your First Transaction
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-paid {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.status-in_progress {
+    background-color: #e0e7ff;
+    color: #3730a3;
+}
+
+.status-completed {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-released {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-disputed {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.status-cancelled {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+</style>
+{% endblock %}

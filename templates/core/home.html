@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <h1><i class="bi bi-shield-check"></i> Pay Safely. Work Confidently.</h1>
+        <p>Nigeria's most trusted escrow platform for service payments. We hold your money safely until the job is done.</p>
+        <div class="mt-4">
+            <a href="{% url 'accounts:register' %}" class="btn btn-success btn-lg me-3">
+                <i class="bi bi-person-plus"></i> Get Started Free
+            </a>
+            <a href="{% url 'core:how_it_works' %}" class="btn btn-outline btn-lg">
+                <i class="bi bi-play-circle"></i> See How It Works
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Badges -->
+<section class="trust-badges">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 trust-badge">
+                <div class="trust-badge-icon"><i class="bi bi-shield-fill-check"></i></div>
+                <h4>100% Secure</h4>
+                <p>Bank-grade encryption protects your money</p>
+            </div>
+            <div class="col-md-3 trust-badge">
+                <div class="trust-badge-icon"><i class="bi bi-clock-history"></i></div>
+                <h4>Auto-Release</h4>
+                <p>Money released automatically if no disputes</p>
+            </div>
+            <div class="col-md-3 trust-badge">
+                <div class="trust-badge-icon"><i class="bi bi-people"></i></div>
+                <h4>Fair Resolution</h4>
+                <p>Expert dispute resolution when needed</p>
+            </div>
+            <div class="col-md-3 trust-badge">
+                <div class="trust-badge-icon"><i class="bi bi-credit-card"></i></div>
+                <h4>Easy Payments</h4>
+                <p>Pay with card, bank transfer, or USSD</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">How TrustEscrow Works</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="mb-3" style="font-size: 3rem; color: var(--primary-color);">
+                            <i class="bi bi-1-circle-fill"></i>
+                        </div>
+                        <h3>Client Pays</h3>
+                        <p>Client pays for the service into TrustEscrow. Money is held securely.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="mb-3" style="font-size: 3rem; color: var(--primary-color);">
+                            <i class="bi bi-2-circle-fill"></i>
+                        </div>
+                        <h3>Provider Works</h3>
+                        <p>Service provider completes the work and marks it as done.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="mb-3" style="font-size: 3rem; color: var(--secondary-color);">
+                            <i class="bi bi-3-circle-fill"></i>
+                        </div>
+                        <h3>Money Released</h3>
+                        <p>Client approves and money is released. Auto-release if no dispute.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'core:how_it_works' %}" class="btn btn-primary">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits -->
+<section class="py-5" style="background: var(--bg-white);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2>Why Choose TrustEscrow?</h2>
+                <ul class="list-unstyled mt-4">
+                    <li class="mb-3">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <strong>Protected Payments</strong> - Your money is safe until work is done
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <strong>Guaranteed Work</strong> - Providers get paid when they deliver
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <strong>Dispute Resolution</strong> - Fair resolution by our team
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <strong>Transparent Fees</strong> - Only 2.5% platform fee
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <strong>Fast & Easy</strong> - Complete transactions in minutes
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body text-center p-5">
+                        <i class="bi bi-shield-lock" style="font-size: 8rem; color: var(--secondary-color);"></i>
+                        <h3 class="mt-4">Your Money is Safe</h3>
+                        <p>We use bank-level security to protect every transaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-value">₦50M+</div>
+                    <div class="stat-label">Secured in Escrow</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card success">
+                    <div class="stat-value">5,000+</div>
+                    <div class="stat-label">Transactions</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card warning">
+                    <div class="stat-value">98%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card info">
+                    <div class="stat-value">2,500+</div>
+                    <div class="stat-label">Happy Users</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); color: white;">
+    <div class="container text-center">
+        <h2 style="color: white;">Ready to Pay Safely?</h2>
+        <p style="color: rgba(255,255,255,0.9);">Join thousands of Nigerians protecting their transactions</p>
+        <a href="{% url 'accounts:register' %}" class="btn btn-success btn-lg mt-3">
+            <i class="bi bi-rocket-takeoff"></i> Get Started Now
+        </a>
+    </div>
+</section>
+{% endblock %}
