@@ -31,7 +31,7 @@ def validate_access(request):
         code = request.POST.get('code', '').strip().upper()
         
         # The secret access code
-        SECRET_CODE = 'FOREVER'
+        SECRET_CODE = 'Boyz-II-Men'
         
         if code == SECRET_CODE:
             return JsonResponse({'success': True})
