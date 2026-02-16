@@ -84,6 +84,14 @@
         margin-bottom: 1.5rem;
     }
     
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: var(--neutral-800);
+        font-size: 0.9375rem;
+    }
+    
     .form-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -124,10 +132,39 @@
         transform: translateY(-50%);
         color: var(--neutral-500);
         font-size: 1.125rem;
+        pointer-events: none;
     }
     
     .form-control-icon {
         padding-left: 3rem;
+    }
+    
+    .form-control,
+    .form-select {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+        border: 2px solid var(--neutral-300);
+        border-radius: var(--radius-lg);
+        transition: all var(--transition-base);
+        background: white;
+    }
+    
+    .form-control:focus,
+    .form-select:focus {
+        outline: none;
+        border-color: var(--primary-500);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+    
+    .form-control.is-invalid,
+    .form-select.is-invalid {
+        border-color: var(--danger-500);
+    }
+    
+    .form-control.is-invalid:focus,
+    .form-select.is-invalid:focus {
+        box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
     }
     
     .btn-auth {
@@ -192,14 +229,78 @@
         gap: 0.5rem;
     }
     
-    .password-requirements i {
+    .password-requirements li i {
         color: var(--accent-600);
-        font-size: 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .text-danger {
+        color: var(--danger-600) !important;
+    }
+    
+    .text-muted {
+        color: var(--neutral-500);
+        font-size: 0.875rem;
+    }
+    
+    .security-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        background: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        color: var(--neutral-700);
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+    
+    .security-badge i {
+        color: var(--accent-600);
+        font-size: 1.125rem;
+    }
+    
+    /* Non-field errors styling */
+    .alert {
+        padding: 1rem;
+        border-radius: var(--radius-lg);
+        margin-bottom: 1.5rem;
+    }
+    
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid var(--danger-300);
+        color: var(--danger-700);
+    }
+    
+    .alert-danger i {
+        color: var(--danger-600);
     }
     
     @media (max-width: 768px) {
+        .auth-wrapper {
+            padding: 1.5rem 0;
+        }
+        
+        .auth-card {
+            margin: 0 1rem;
+        }
+        
+        .auth-body {
+            padding: 1.5rem;
+        }
+        
         .form-row {
             grid-template-columns: 1fr;
+        }
+        
+        .auth-header {
+            padding: 2rem 1.5rem;
+        }
+        
+        .auth-header h2 {
+            font-size: 1.5rem;
         }
     }
 </style>
@@ -208,51 +309,54 @@
 {% block content %}
 <div class="auth-wrapper">
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-12">
-                <div class="auth-card fade-in-up">
+                <div class="auth-card">
                     <div class="auth-header">
                         <div class="auth-header-content">
                             <div class="auth-icon">
-                                <i class="bi bi-person-plus-fill"></i>
+                                <i class="bi bi-shield-check"></i>
                             </div>
-                            <h2>Create Your Account</h2>
-                            <p>Join SafeRelease Nigeria today</p>
+                            <h2>Join SafeRelease</h2>
+                            <p>Create your account to get started with secure transactions</p>
                         </div>
                     </div>
                     
                     <div class="auth-body">
                         <div class="security-notice">
                             <i class="bi bi-shield-fill-check"></i>
-                            <span>Your data is encrypted and secure with bank-grade protection</span>
+                            <span>Your information is protected with bank-level security</span>
                         </div>
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}" role="alert">
+                                    <i class="bi bi-{% if message.tags == 'error' or message.tags == 'danger' %}exclamation-circle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %}-fill me-2"></i>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <i class="bi bi-exclamation-circle-fill me-2"></i>
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                         
                         <form method="post" novalidate>
                             {% csrf_token %}
                             
-                            {% if form.non_field_errors %}
-                                <div class="alert alert-danger mb-4">
-                                    <i class="bi bi-exclamation-circle-fill me-2"></i>
-                                    {{ form.non_field_errors }}
-                                </div>
-                            {% endif %}
-                            
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="{{ form.first_name.id_for_label }}" class="form-label">
-                                        First Name
+                                        First Name <span class="text-danger">*</span>
                                     </label>
                                     <div class="input-icon-wrapper">
                                         <i class="bi bi-person-fill input-icon"></i>
-                                        <input 
-                                            type="text" 
-                                            name="{{ form.first_name.name }}"
-                                            id="{{ form.first_name.id_for_label }}"
-                                            class="form-control form-control-icon {% if form.first_name.errors %}is-invalid{% endif %}"
-                                            placeholder="John"
-                                            value="{{ form.first_name.value|default:'' }}"
-                                            required
-                                        >
+                                        {{ form.first_name }}
                                     </div>
                                     {% if form.first_name.errors %}
                                         <div class="text-danger small mt-2">
@@ -264,19 +368,11 @@
                                 
                                 <div class="form-group">
                                     <label for="{{ form.last_name.id_for_label }}" class="form-label">
-                                        Last Name
+                                        Last Name <span class="text-danger">*</span>
                                     </label>
                                     <div class="input-icon-wrapper">
                                         <i class="bi bi-person-fill input-icon"></i>
-                                        <input 
-                                            type="text" 
-                                            name="{{ form.last_name.name }}"
-                                            id="{{ form.last_name.id_for_label }}"
-                                            class="form-control form-control-icon {% if form.last_name.errors %}is-invalid{% endif %}"
-                                            placeholder="Doe"
-                                            value="{{ form.last_name.value|default:'' }}"
-                                            required
-                                        >
+                                        {{ form.last_name }}
                                     </div>
                                     {% if form.last_name.errors %}
                                         <div class="text-danger small mt-2">
@@ -289,19 +385,11 @@
                             
                             <div class="form-group">
                                 <label for="{{ form.email.id_for_label }}" class="form-label">
-                                    Email Address
+                                    Email Address <span class="text-danger">*</span>
                                 </label>
                                 <div class="input-icon-wrapper">
                                     <i class="bi bi-envelope-fill input-icon"></i>
-                                    <input 
-                                        type="email" 
-                                        name="{{ form.email.name }}"
-                                        id="{{ form.email.id_for_label }}"
-                                        class="form-control form-control-icon {% if form.email.errors %}is-invalid{% endif %}"
-                                        placeholder="john.doe@example.com"
-                                        value="{{ form.email.value|default:'' }}"
-                                        required
-                                    >
+                                    {{ form.email }}
                                 </div>
                                 {% if form.email.errors %}
                                     <div class="text-danger small mt-2">
@@ -313,19 +401,11 @@
                             
                             <div class="form-group">
                                 <label for="{{ form.phone_number.id_for_label }}" class="form-label">
-                                    Phone Number
+                                    Phone Number <span class="text-danger">*</span>
                                 </label>
                                 <div class="input-icon-wrapper">
                                     <i class="bi bi-telephone-fill input-icon"></i>
-                                    <input 
-                                        type="tel" 
-                                        name="{{ form.phone_number.name }}"
-                                        id="{{ form.phone_number.id_for_label }}"
-                                        class="form-control form-control-icon {% if form.phone_number.errors %}is-invalid{% endif %}"
-                                        placeholder="08012345678"
-                                        value="{{ form.phone_number.value|default:'' }}"
-                                        required
-                                    >
+                                    {{ form.phone_number }}
                                 </div>
                                 {% if form.phone_number.errors %}
                                     <div class="text-danger small mt-2">
@@ -333,70 +413,53 @@
                                         {{ form.phone_number.errors.0 }}
                                     </div>
                                 {% else %}
-                                    <small class="text-muted">Format: 08012345678</small>
+                                    <small class="text-muted">Format: 08012345678 or +2348012345678</small>
                                 {% endif %}
                             </div>
                             
                             <div class="form-group">
                                 <label for="{{ form.user_type.id_for_label }}" class="form-label">
-                                    I want to
+                                    I want to <span class="text-danger">*</span>
                                 </label>
                                 <div class="input-icon-wrapper">
                                     <i class="bi bi-briefcase-fill input-icon"></i>
-                                    <select 
-                                        name="{{ form.user_type.name }}"
-                                        id="{{ form.user_type.id_for_label }}"
-                                        class="form-select form-control-icon {% if form.user_type.errors %}is-invalid{% endif %}"
-                                        required
-                                    >
-                                        {{ form.user_type }}
-                                    </select>
+                                    {{ form.user_type }}
                                 </div>
                                 {% if form.user_type.errors %}
                                     <div class="text-danger small mt-2">
                                         <i class="bi bi-exclamation-circle me-1"></i>
                                         {{ form.user_type.errors.0 }}
                                     </div>
+                                {% else %}
+                                    <small class="text-muted">Choose how you'll use SafeRelease</small>
                                 {% endif %}
                             </div>
                             
                             <div class="form-group">
                                 <label for="{{ form.password1.id_for_label }}" class="form-label">
-                                    Password
+                                    Password <span class="text-danger">*</span>
                                 </label>
                                 <div class="input-icon-wrapper">
                                     <i class="bi bi-lock-fill input-icon"></i>
-                                    <input 
-                                        type="password" 
-                                        name="{{ form.password1.name }}"
-                                        id="{{ form.password1.id_for_label }}"
-                                        class="form-control form-control-icon {% if form.password1.errors %}is-invalid{% endif %}"
-                                        placeholder="Create a strong password"
-                                        required
-                                    >
+                                    {{ form.password1 }}
                                 </div>
                                 {% if form.password1.errors %}
                                     <div class="text-danger small mt-2">
                                         <i class="bi bi-exclamation-circle me-1"></i>
-                                        {{ form.password1.errors.0 }}
+                                        {% for error in form.password1.errors %}
+                                            {{ error }}<br>
+                                        {% endfor %}
                                     </div>
                                 {% endif %}
                             </div>
                             
                             <div class="form-group">
                                 <label for="{{ form.password2.id_for_label }}" class="form-label">
-                                    Confirm Password
+                                    Confirm Password <span class="text-danger">*</span>
                                 </label>
                                 <div class="input-icon-wrapper">
                                     <i class="bi bi-lock-fill input-icon"></i>
-                                    <input 
-                                        type="password" 
-                                        name="{{ form.password2.name }}"
-                                        id="{{ form.password2.id_for_label }}"
-                                        class="form-control form-control-icon {% if form.password2.errors %}is-invalid{% endif %}"
-                                        placeholder="Confirm your password"
-                                        required
-                                    >
+                                    {{ form.password2 }}
                                 </div>
                                 {% if form.password2.errors %}
                                     <div class="text-danger small mt-2">
@@ -412,6 +475,7 @@
                                     <li><i class="bi bi-check-circle-fill"></i> At least 8 characters long</li>
                                     <li><i class="bi bi-check-circle-fill"></i> Contains letters and numbers</li>
                                     <li><i class="bi bi-check-circle-fill"></i> Not too similar to your other information</li>
+                                    <li><i class="bi bi-check-circle-fill"></i> Not a commonly used password</li>
                                 </ul>
                             </div>
                             
