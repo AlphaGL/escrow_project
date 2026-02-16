@@ -17,7 +17,7 @@ def love_page(request):
     
     This is a special page created to express feelings to someone special.
     """
-    return render(request, 'love_page.html')
+    return render(request, 'core/love_page.html')
 
 
 # Optional: If you want server-side validation instead of JavaScript
