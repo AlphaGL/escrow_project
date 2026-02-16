@@ -1,5 +1,5 @@
 """
-Django settings for TrustEscrow Nigeria platform.
+Django settings for SafeRelease Nigeria platform.
 """
 
 import os
@@ -129,11 +129,11 @@ EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@trustescrow.ng')
+DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@SafeRelease.ng')
 
 # Paystack Configuration
-PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY', default='')
-PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY', default='')
+PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY', default='sk_test_3e89989f81e42e78b1bce3d756f9da62ff9c8612')
+PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY', default='pk_test_82cbf50854af160f931f8b9e6f9c84af8489536e')
 PAYSTACK_CALLBACK_URL = config('SITE_URL', default='http://localhost:8000') + '/payments/verify/'
 
 # Celery Configuration
@@ -144,12 +144,35 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
+
+
 # Platform Settings
-SITE_NAME = config('SITE_NAME', default='TrustEscrow Nigeria')
-AUTO_RELEASE_DAYS = config('AUTO_RELEASE_DAYS', default=5, cast=int)
-PLATFORM_FEE_PERCENTAGE = config('PLATFORM_FEE_PERCENTAGE', default=2.5, cast=float)
-MIN_TRANSACTION_AMOUNT = 1000  # ₦1,000
+from decimal import Decimal
+
+SITE_NAME = config('SITE_NAME', default='SafeRelease Nigeria')
+SITE_URL = config('SITE_URL', default='http://localhost:8000')
+
+AUTO_RELEASE_DAYS = config(
+    'AUTO_RELEASE_DAYS',
+    default=5,
+    cast=int
+)
+
+PLATFORM_FEE_PERCENTAGE = config(
+    'PLATFORM_FEE_PERCENTAGE',
+    default=Decimal("2.0"),
+    cast=Decimal
+)
+
+MIN_TRANSACTION_AMOUNT = Decimal("1000.00")   # ₦1,000
+MAX_TRANSACTION_AMOUNT = Decimal("500000.00") # ₦500,000
+
 MAX_TRANSACTION_AMOUNT = 500000  # ₦500,000
+
+
+
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_TASK_EAGER_PROPAGATES = True
 
 # Security Settings
 SESSION_COOKIE_SECURE = not DEBUG

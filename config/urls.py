@@ -1,5 +1,5 @@
 """
-URL Configuration for TrustEscrow Nigeria
+URL Configuration for SafeRelease Nigeria
 """
 from django.contrib import admin
 from django.urls import path, include
@@ -20,6 +20,6 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Admin site customization
-admin.site.site_header = "TrustEscrow Nigeria Admin"
-admin.site.site_title = "TrustEscrow Admin Portal"
-admin.site.index_title = "Welcome to TrustEscrow Administration"
+admin.site.site_header = "SafeRelease Nigeria Admin"
+admin.site.site_title = "SafeRelease Admin Portal"
+admin.site.index_title = "Welcome to SafeRelease Administration"

@@ -48,7 +48,7 @@ class PaystackService:
                     {
                         'display_name': 'Platform',
                         'variable_name': 'platform',
-                        'value': 'TrustEscrow Nigeria'
+                        'value': 'SafeRelease Nigeria'
                     }
                 ]
             }

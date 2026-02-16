@@ -25,7 +25,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, f'Welcome to TrustEscrow, {user.get_full_name()}! Your account has been created successfully.')
+            messages.success(request, f'Welcome to SafeRelease, {user.get_full_name()}! Your account has been created successfully.')
             return redirect('core:dashboard')
     else:
         form = UserRegistrationForm()

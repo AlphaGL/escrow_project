@@ -1,131 +1,678 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, #0A2463 0%, #1565C0 50%, #2196F3 100%);
+        position: relative;
+        overflow: hidden;
+        padding: 5rem 0;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 50%, rgba(33, 150, 243, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(0, 200, 83, 0.2) 0%, transparent 50%);
+        animation: pulse 8s ease-in-out infinite;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.375rem;
+        color: rgba(255, 255, 255, 0.95);
+        margin-bottom: 2.5rem;
+        font-weight: 400;
+        line-height: 1.6;
+    }
+    
+    .hero-cta {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-hero-primary {
+        background: linear-gradient(135deg, var(--accent-600) 0%, #00BFA5 100%);
+        color: white;
+        padding: 1rem 2.5rem;
+        font-size: 1.125rem;
+        font-weight: 700;
+        border-radius: var(--radius-xl);
+        box-shadow: 0 8px 24px rgba(0, 200, 83, 0.35);
+        border: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-hero-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0, 200, 83, 0.45);
+        background: linear-gradient(135deg, #00962D 0%, var(--accent-600) 100%);
+        color: white;
+    }
+    
+    .btn-hero-secondary {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 1rem 2.5rem;
+        font-size: 1.125rem;
+        font-weight: 700;
+        border-radius: var(--radius-xl);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .btn-hero-secondary:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-3px);
+        color: white;
+    }
+    
+    /* Trust Badges Section */
+    .trust-section {
+        background: white;
+        padding: 3rem 0;
+        border-bottom: 1px solid var(--neutral-200);
+    }
+    
+    .trust-badge-card {
+        text-align: center;
+        padding: 2rem 1rem;
+        transition: all var(--transition-base);
+        border-radius: var(--radius-xl);
+    }
+    
+    .trust-badge-card:hover {
+        transform: translateY(-5px);
+        background: var(--neutral-50);
+    }
+    
+    .trust-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-2xl);
+        font-size: 2.5rem;
+        position: relative;
+    }
+    
+    .trust-icon-primary {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%);
+        color: var(--primary-600);
+        border: 2px solid rgba(33, 150, 243, 0.2);
+    }
+    
+    .trust-icon-success {
+        background: linear-gradient(135deg, rgba(0, 200, 83, 0.1) 0%, rgba(0, 191, 165, 0.1) 100%);
+        color: var(--accent-600);
+        border: 2px solid rgba(0, 200, 83, 0.2);
+    }
+    
+    .trust-icon-warning {
+        background: linear-gradient(135deg, rgba(245, 124, 0, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+        color: var(--warning-600);
+        border: 2px solid rgba(245, 124, 0, 0.2);
+    }
+    
+    .trust-icon-info {
+        background: linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(124, 77, 255, 0.1) 100%);
+        color: #7C4DFF;
+        border: 2px solid rgba(124, 77, 255, 0.2);
+    }
+    
+    .trust-badge-card h4 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: var(--neutral-900);
+    }
+    
+    .trust-badge-card p {
+        color: var(--neutral-600);
+        margin-bottom: 0;
+        font-size: 0.9375rem;
+    }
+    
+    /* How It Works Section */
+    .how-it-works {
+        padding: 5rem 0;
+        background: var(--neutral-50);
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.75rem;
+        font-weight: 800;
+        margin-bottom: 3.5rem;
+        color: var(--neutral-900);
+        letter-spacing: -0.02em;
+    }
+    
+    .step-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: var(--radius-2xl);
+        box-shadow: var(--shadow-lg);
+        height: 100%;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .step-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-600), var(--accent-600));
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+    
+    .step-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-2xl);
+        border-color: var(--primary-300);
+    }
+    
+    .step-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .step-number {
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0 auto 1.5rem;
+        border-radius: 50%;
+        position: relative;
+    }
+    
+    .step-number-1 {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(21, 101, 192, 0.15) 100%);
+        color: var(--primary-700);
+        border: 3px solid var(--primary-400);
+    }
+    
+    .step-number-2 {
+        background: linear-gradient(135deg, rgba(124, 77, 255, 0.15) 0%, rgba(103, 58, 183, 0.15) 100%);
+        color: #5E35B1;
+        border: 3px solid #7C4DFF;
+    }
+    
+    .step-number-3 {
+        background: linear-gradient(135deg, rgba(0, 200, 83, 0.15) 0%, rgba(0, 191, 165, 0.15) 100%);
+        color: var(--accent-600);
+        border: 3px solid var(--accent-400);
+    }
+    
+    .step-card h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--neutral-900);
+    }
+    
+    .step-card p {
+        color: var(--neutral-600);
+        margin-bottom: 1.5rem;
+        font-size: 1.0625rem;
+        line-height: 1.7;
+    }
+    
+    .step-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .step-features li {
+        padding: 0.625rem 0;
+        color: var(--neutral-700);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 500;
+    }
+    
+    .step-features i {
+        color: var(--accent-600);
+        font-size: 1.125rem;
+    }
+    
+    /* Benefits Section */
+    .benefits-section {
+        padding: 5rem 0;
+        background: white;
+    }
+    
+    .benefit-list {
+        list-style: none;
+        padding: 0;
+        margin: 2rem 0 0 0;
+    }
+    
+    .benefit-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.25rem;
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+        background: var(--neutral-50);
+        border-radius: var(--radius-xl);
+        border-left: 4px solid var(--accent-600);
+        transition: all var(--transition-base);
+    }
+    
+    .benefit-item:hover {
+        background: white;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(8px);
+    }
+    
+    .benefit-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--accent-600) 0%, #00BFA5 100%);
+        color: white;
+        border-radius: var(--radius-lg);
+        font-size: 1.5rem;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(0, 200, 83, 0.25);
+    }
+    
+    .benefit-content strong {
+        font-size: 1.125rem;
+        color: var(--neutral-900);
+        display: block;
+        margin-bottom: 0.375rem;
+        font-weight: 700;
+    }
+    
+    .benefit-content p {
+        color: var(--neutral-600);
+        margin: 0;
+        font-size: 0.9375rem;
+    }
+    
+    .security-visual {
+        background: linear-gradient(135deg, var(--primary-50) 0%, white 100%);
+        padding: 3rem;
+        border-radius: var(--radius-2xl);
+        text-align: center;
+        box-shadow: var(--shadow-xl);
+        border: 2px solid var(--neutral-200);
+    }
+    
+    .security-icon {
+        font-size: 8rem;
+        background: linear-gradient(135deg, var(--primary-600) 0%, var(--accent-600) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        animation: pulse 3s ease-in-out infinite;
+    }
+    
+    /* Stats Section */
+    .stats-section {
+        padding: 4rem 0;
+        background: linear-gradient(135deg, var(--neutral-50) 0%, white 100%);
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        background: white;
+        border-radius: var(--radius-2xl);
+        box-shadow: var(--shadow-lg);
+        transition: all 0.3s ease;
+        border: 2px solid var(--neutral-200);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-2xl);
+        border-color: var(--primary-400);
+    }
+    
+    .stat-value {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--primary-700) 0%, var(--accent-600) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-family: var(--font-display);
+    }
+    
+    .stat-label {
+        font-size: 1.125rem;
+        color: var(--neutral-700);
+        font-weight: 600;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, #0A2463 0%, #1565C0 50%, #00C853 100%);
+        padding: 5rem 0;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 70% 50%, rgba(0, 200, 83, 0.2) 0%, transparent 50%);
+    }
+    
+    .cta-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .cta-section h2 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: white;
+    }
+    
+    .cta-section p {
+        font-size: 1.375rem;
+        margin-bottom: 2.5rem;
+        color: rgba(255, 255, 255, 0.95);
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+        .hero-title {
+            font-size: 2.75rem;
+        }
+        
+        .section-title {
+            font-size: 2.25rem;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.25rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.25rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.125rem;
+        }
+        
+        .section-title {
+            font-size: 1.875rem;
+        }
+        
+        .stat-value {
+            font-size: 2.25rem;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
-<section class="hero">
+<section class="hero-section">
     <div class="container">
-        <h1><i class="bi bi-shield-check"></i> Pay Safely. Work Confidently.</h1>
-        <p>Nigeria's most trusted escrow platform for service payments. We hold your money safely until the job is done.</p>
-        <div class="mt-4">
-            <a href="{% url 'accounts:register' %}" class="btn btn-success btn-lg me-3">
-                <i class="bi bi-person-plus"></i> Get Started Free
-            </a>
-            <a href="{% url 'core:how_it_works' %}" class="btn btn-outline btn-lg">
-                <i class="bi bi-play-circle"></i> See How It Works
-            </a>
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center hero-content fade-in-up">
+                <div class="mb-4">
+                    <span class="security-badge" style="background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3); color: white;">
+                        <i class="bi bi-shield-fill-check"></i>
+                        <span>Bank-Grade Security</span>
+                    </span>
+                </div>
+                <h1 class="hero-title">
+                    <i class="bi bi-shield-check"></i>
+                    Pay Safely.<br>Work Confidently.
+                </h1>
+                <p class="hero-subtitle">
+                    Nigeria's most trusted escrow platform for service payments.<br>
+                    We hold your money safely until the job is done.
+                </p>
+                <div class="hero-cta justify-content-center">
+                    <a href="{% url 'accounts:register' %}" class="btn btn-hero-primary">
+                        <i class="bi bi-rocket-takeoff me-2"></i>
+                        Get Started Free
+                    </a>
+                    <a href="{% url 'core:how_it_works' %}" class="btn btn-hero-secondary">
+                        <i class="bi bi-play-circle me-2"></i>
+                        See How It Works
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- Trust Badges -->
-<section class="trust-badges">
+<section class="trust-section">
     <div class="container">
-        <div class="row">
-            <div class="col-md-3 trust-badge">
-                <div class="trust-badge-icon"><i class="bi bi-shield-fill-check"></i></div>
-                <h4>100% Secure</h4>
-                <p>Bank-grade encryption protects your money</p>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="trust-badge-card">
+                    <div class="trust-icon trust-icon-success">
+                        <i class="bi bi-shield-fill-check"></i>
+                    </div>
+                    <h4>100% Secure</h4>
+                    <p>Bank-grade encryption protects every transaction</p>
+                </div>
             </div>
-            <div class="col-md-3 trust-badge">
-                <div class="trust-badge-icon"><i class="bi bi-clock-history"></i></div>
-                <h4>Auto-Release</h4>
-                <p>Money released automatically if no disputes</p>
+            <div class="col-lg-3 col-md-6">
+                <div class="trust-badge-card">
+                    <div class="trust-icon trust-icon-warning">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <h4>Auto-Release</h4>
+                    <p>Money released automatically when conditions are met</p>
+                </div>
             </div>
-            <div class="col-md-3 trust-badge">
-                <div class="trust-badge-icon"><i class="bi bi-people"></i></div>
-                <h4>Fair Resolution</h4>
-                <p>Expert dispute resolution when needed</p>
+            <div class="col-lg-3 col-md-6">
+                <div class="trust-badge-card">
+                    <div class="trust-icon trust-icon-info">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h4>Fair Resolution</h4>
+                    <p>Expert dispute resolution when needed</p>
+                </div>
             </div>
-            <div class="col-md-3 trust-badge">
-                <div class="trust-badge-icon"><i class="bi bi-credit-card"></i></div>
-                <h4>Easy Payments</h4>
-                <p>Pay with card, bank transfer, or USSD</p>
+            <div class="col-lg-3 col-md-6">
+                <div class="trust-badge-card">
+                    <div class="trust-icon trust-icon-primary">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+                    <h4>Fast Payments</h4>
+                    <p>Pay with card, bank transfer, or USSD</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- How It Works -->
-<section class="py-5">
+<section class="how-it-works">
     <div class="container">
-        <h2 class="text-center mb-5">How TrustEscrow Works</h2>
+        <h2 class="section-title">How SafeRelease Works</h2>
         <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <div class="mb-3" style="font-size: 3rem; color: var(--primary-color);">
-                            <i class="bi bi-1-circle-fill"></i>
-                        </div>
+            <div class="col-lg-4">
+                <div class="step-card">
+                    <div class="text-center">
+                        <div class="step-number step-number-1">1</div>
                         <h3>Client Pays</h3>
-                        <p>Client pays for the service into TrustEscrow. Money is held securely.</p>
+                        <p>Client pays for the service into SafeRelease. Money is held securely in escrow.</p>
+                        <ul class="step-features">
+                            <li><i class="bi bi-check-circle-fill"></i> Funds are protected</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Provider is notified</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Work can begin</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <div class="mb-3" style="font-size: 3rem; color: var(--primary-color);">
-                            <i class="bi bi-2-circle-fill"></i>
-                        </div>
+            <div class="col-lg-4">
+                <div class="step-card">
+                    <div class="text-center">
+                        <div class="step-number step-number-2">2</div>
                         <h3>Provider Works</h3>
-                        <p>Service provider completes the work and marks it as done.</p>
+                        <p>Service provider completes the work and marks it as done on the platform.</p>
+                        <ul class="step-features">
+                            <li><i class="bi bi-check-circle-fill"></i> Secure communication</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Progress tracking</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Work submission</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <div class="mb-3" style="font-size: 3rem; color: var(--secondary-color);">
-                            <i class="bi bi-3-circle-fill"></i>
-                        </div>
+            <div class="col-lg-4">
+                <div class="step-card">
+                    <div class="text-center">
+                        <div class="step-number step-number-3">3</div>
                         <h3>Money Released</h3>
-                        <p>Client approves and money is released. Auto-release if no dispute.</p>
+                        <p>Client approves and money is released. Auto-release after 5 days if no dispute.</p>
+                        <ul class="step-features">
+                            <li><i class="bi bi-check-circle-fill"></i> Client review</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Instant release</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Everyone wins</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
         <div class="text-center mt-5">
-            <a href="{% url 'core:how_it_works' %}" class="btn btn-primary">Learn More</a>
+            <a href="{% url 'core:how_it_works' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-info-circle me-2"></i>
+                Learn More About The Process
+            </a>
         </div>
     </div>
 </section>
 
 <!-- Benefits -->
-<section class="py-5" style="background: var(--bg-white);">
+<section class="benefits-section">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h2>Why Choose TrustEscrow?</h2>
-                <ul class="list-unstyled mt-4">
-                    <li class="mb-3">
-                        <i class="bi bi-check-circle-fill text-success me-2"></i>
-                        <strong>Protected Payments</strong> - Your money is safe until work is done
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h2 class="section-title text-start mb-4">Why Choose SafeRelease?</h2>
+                <ul class="benefit-list">
+                    <li class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <strong>Protected Payments</strong>
+                            <p>Your money is safe until work is completed to your satisfaction</p>
+                        </div>
                     </li>
-                    <li class="mb-3">
-                        <i class="bi bi-check-circle-fill text-success me-2"></i>
-                        <strong>Guaranteed Work</strong> - Providers get paid when they deliver
+                    <li class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <strong>Guaranteed Work</strong>
+                            <p>Service providers get paid when they deliver quality work</p>
+                        </div>
                     </li>
-                    <li class="mb-3">
-                        <i class="bi bi-check-circle-fill text-success me-2"></i>
-                        <strong>Dispute Resolution</strong> - Fair resolution by our team
+                    <li class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <strong>Dispute Resolution</strong>
+                            <p>Fair resolution by our expert team when issues arise</p>
+                        </div>
                     </li>
-                    <li class="mb-3">
-                        <i class="bi bi-check-circle-fill text-success me-2"></i>
-                        <strong>Transparent Fees</strong> - Only 2.5% platform fee
+                    <li class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <strong>Transparent Fees</strong>
+                            <p>Only 2.0% platform fee - no hidden charges</p>
+                        </div>
                     </li>
-                    <li class="mb-3">
-                        <i class="bi bi-check-circle-fill text-success me-2"></i>
-                        <strong>Fast & Easy</strong> - Complete transactions in minutes
+                    <li class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <strong>Fast & Easy</strong>
+                            <p>Complete transactions in minutes with our simple process</p>
+                        </div>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body text-center p-5">
-                        <i class="bi bi-shield-lock" style="font-size: 8rem; color: var(--secondary-color);"></i>
-                        <h3 class="mt-4">Your Money is Safe</h3>
-                        <p>We use bank-level security to protect every transaction</p>
+            <div class="col-lg-6">
+                <div class="security-visual">
+                    <i class="bi bi-shield-lock security-icon"></i>
+                    <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 1rem;">Your Money is Safe</h3>
+                    <p style="color: var(--neutral-700); font-size: 1.125rem; margin-bottom: 2rem;">
+                        We use bank-level security and encryption to protect every transaction. Your funds are held in secure escrow accounts until conditions are met.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <div class="security-badge">
+                            <i class="bi bi-lock-fill"></i>
+                            <span>SSL Encrypted</span>
+                        </div>
+                        <div class="security-badge">
+                            <i class="bi bi-shield-check"></i>
+                            <span>PCI Compliant</span>
+                        </div>
+                        <div class="security-badge">
+                            <i class="bi bi-patch-check-fill"></i>
+                            <span>Verified</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -134,29 +681,29 @@
 </section>
 
 <!-- Stats -->
-<section class="py-5">
+<section class="stats-section">
     <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3">
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
                 <div class="stat-card">
                     <div class="stat-value">₦50M+</div>
                     <div class="stat-label">Secured in Escrow</div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-card success">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
                     <div class="stat-value">5,000+</div>
                     <div class="stat-label">Transactions</div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-card warning">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
                     <div class="stat-value">98%</div>
                     <div class="stat-label">Success Rate</div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-card info">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
                     <div class="stat-value">2,500+</div>
                     <div class="stat-label">Happy Users</div>
                 </div>
@@ -166,13 +713,16 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-5" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); color: white;">
-    <div class="container text-center">
-        <h2 style="color: white;">Ready to Pay Safely?</h2>
-        <p style="color: rgba(255,255,255,0.9);">Join thousands of Nigerians protecting their transactions</p>
-        <a href="{% url 'accounts:register' %}" class="btn btn-success btn-lg mt-3">
-            <i class="bi bi-rocket-takeoff"></i> Get Started Now
-        </a>
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Pay Safely?</h2>
+            <p>Join thousands of Nigerians protecting their transactions</p>
+            <a href="{% url 'accounts:register' %}" class="btn btn-hero-primary btn-lg">
+                <i class="bi bi-rocket-takeoff me-2"></i>
+                Get Started Now - It's Free
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}

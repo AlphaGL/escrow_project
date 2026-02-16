@@ -6,12 +6,12 @@ from django.db import models
 
 class SiteSettings(models.Model):
     """Site-wide settings"""
-    site_name = models.CharField(max_length=100, default='TrustEscrow Nigeria')
+    site_name = models.CharField(max_length=100, default='SafeRelease Nigeria')
     site_description = models.TextField(default='Secure escrow payments for services')
     site_logo = models.ImageField(upload_to='site/', null=True, blank=True)
     
     # Contact info
-    support_email = models.EmailField(default='support@trustescrow.ng')
+    support_email = models.EmailField(default='support@SafeRelease.ng')
     support_phone = models.CharField(max_length=20, default='+234 800 000 0000')
     
     # Social media

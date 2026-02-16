@@ -1,4 +1,4 @@
-# TrustEscrow Nigeria - Secure Escrow Payment Platform
+# SafeRelease Nigeria - Secure Escrow Payment Platform
 
 A complete Django-based escrow payment platform with Paystack integration, built specifically for the Nigerian market to solve trust issues in service payments.
 
@@ -10,7 +10,7 @@ A complete Django-based escrow payment platform with Paystack integration, built
 - Lack of trust in online service transactions
 
 **Solution:**
-TrustEscrow holds payments securely until work is completed and approved, protecting both parties.
+SafeRelease holds payments securely until work is completed and approved, protecting both parties.
 
 ## ✨ Key Features
 
@@ -279,7 +279,7 @@ Features:
 1. **Install Heroku CLI**
 2. **Create Heroku App**
 ```bash
-heroku create trustescrow-ng
+heroku create SafeRelease-ng
 ```
 
 3. **Add PostgreSQL**
@@ -366,7 +366,7 @@ Test Paystack integration:
 ## 🤝 Support
 
 For issues or questions:
-- Email: support@trustescrow.ng
+- Email: support@SafeRelease.ng
 - GitHub Issues: [Create an issue]
 
 ## 📄 License

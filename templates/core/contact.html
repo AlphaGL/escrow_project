@@ -1,78 +1,204 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Contact Us - TrustEscrow Nigeria{% endblock %}
+{% block title %}Contact Us - SafeRelease Nigeria{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-600) 100%);
+        padding: 4rem 0;
+        color: white;
+        text-align: center;
+    }
+    
+    .page-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.95);
+    }
+    
+    .contact-cards {
+        margin-top: -3rem;
+        margin-bottom: 3rem;
+    }
+    
+    .contact-card {
+        background: white;
+        border-radius: var(--radius-2xl);
+        padding: 2.5rem;
+        box-shadow: var(--shadow-xl);
+        border: 2px solid var(--neutral-200);
+        text-align: center;
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .contact-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-2xl);
+    }
+    
+    .contact-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 2rem;
+    }
+    
+    .contact-icon-1 {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(21, 101, 192, 0.15) 100%);
+        color: var(--primary-700);
+        border: 3px solid var(--primary-400);
+    }
+    
+    .contact-icon-2 {
+        background: linear-gradient(135deg, rgba(0, 200, 83, 0.15) 0%, rgba(0, 191, 165, 0.15) 100%);
+        color: var(--accent-600);
+        border: 3px solid var(--accent-400);
+    }
+    
+    .contact-icon-3 {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.15) 100%);
+        color: #D97706;
+        border: 3px solid #F59E0B;
+    }
+    
+    .contact-card h5 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--neutral-900);
+    }
+    
+    .contact-card p {
+        color: var(--neutral-700);
+        margin: 0;
+        font-size: 1rem;
+    }
+    
+    .contact-card a {
+        color: var(--primary-700);
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .contact-card a:hover {
+        color: var(--primary-600);
+        text-decoration: underline;
+    }
+    
+    .form-card {
+        background: white;
+        border-radius: var(--radius-2xl);
+        padding: 3rem;
+        box-shadow: var(--shadow-xl);
+        border: 2px solid var(--neutral-200);
+    }
+    
+    .form-card h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: var(--neutral-900);
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title">Contact Us</h1>
+        <p class="page-subtitle">Get in touch with our team - we're here to help</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row contact-cards g-4">
+        <div class="col-lg-4">
+            <div class="contact-card fade-in-up">
+                <div class="contact-icon contact-icon-1">
+                    <i class="bi bi-envelope-fill"></i>
+                </div>
+                <h5>Email Us</h5>
+                <p><a href="mailto:support@saferelease.ng">support@saferelease.ng</a></p>
+                <p class="text-muted mt-2">We reply within 24 hours</p>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="contact-card fade-in-up" style="animation-delay: 0.1s;">
+                <div class="contact-icon contact-icon-2">
+                    <i class="bi bi-telephone-fill"></i>
+                </div>
+                <h5>Call Us</h5>
+                <p><a href="tel:+2348000000000">+234 800 000 0000</a></p>
+                <p class="text-muted mt-2">Mon-Fri: 9AM-6PM WAT</p>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="contact-card fade-in-up" style="animation-delay: 0.2s;">
+                <div class="contact-icon contact-icon-3">
+                    <i class="bi bi-clock-fill"></i>
+                </div>
+                <h5>Business Hours</h5>
+                <p>Mon-Fri: 9AM-6PM</p>
+                <p>Saturday: 10AM-4PM</p>
+                <p class="text-muted mt-2">Closed on Sundays</p>
+            </div>
+        </div>
+    </div>
+    
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="text-center mb-5">
-                <h1 class="display-4">Contact Us</h1>
-                <p class="lead text-muted">Get in touch with our team</p>
-            </div>
-            
-            <div class="row g-4 mb-5">
-                <div class="col-md-4">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <i class="bi bi-envelope-fill" style="font-size: 3rem; color: var(--primary-color);"></i>
-                            <h5 class="mt-3">Email</h5>
-                            <p><a href="mailto:support@trustescrow.ng">support@trustescrow.ng</a></p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <i class="bi bi-telephone-fill" style="font-size: 3rem; color: var(--primary-color);"></i>
-                            <h5 class="mt-3">Phone</h5>
-                            <p>+234 800 000 0000</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <i class="bi bi-clock-fill" style="font-size: 3rem; color: var(--primary-color);"></i>
-                            <h5 class="mt-3">Hours</h5>
-                            <p>Mon-Fri: 9AM-6PM<br>Sat: 10AM-4PM</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-body p-5">
-                    <h3 class="mb-4">Send Us a Message</h3>
-                    <form>
-                        <div class="mb-3">
+        <div class="col-lg-8">
+            <div class="form-card fade-in-up">
+                <h3>
+                    <i class="bi bi-chat-dots-fill me-2" style="color: var(--primary-600);"></i>
+                    Send Us a Message
+                </h3>
+                <form>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="name" required>
+                            <input type="text" class="form-control" id="name" placeholder="John Doe" required>
                         </div>
                         
-                        <div class="mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="email" required>
+                            <input type="email" class="form-control" id="email" placeholder="john@example.com" required>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="subject" class="form-label">Subject</label>
-                            <input type="text" class="form-control" id="subject" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" rows="5" required></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-lg w-100">
-                            <i class="bi bi-send"></i> Send Message
-                        </button>
-                    </form>
-                </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="subject" placeholder="How can we help you?" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" rows="6" placeholder="Tell us more about your inquiry..." required></textarea>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        We typically respond to all inquiries within 24 hours during business days.
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-send-fill me-2"></i>
+                        Send Message
+                    </button>
+                </form>
             </div>
         </div>
     </div>

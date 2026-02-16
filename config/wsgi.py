@@ -1,5 +1,5 @@
 """
-WSGI config for TrustEscrow Nigeria platform.
+WSGI config for SafeRelease Nigeria platform.
 """
 
 import os

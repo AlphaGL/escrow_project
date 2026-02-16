@@ -1,142 +1,567 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}About Us - TrustEscrow Nigeria{% endblock %}
+{% block title %}About Us - SafeRelease Nigeria{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-about {
+        background: linear-gradient(135deg, #0A2463 0%, #1565C0 50%, #2196F3 100%);
+        padding: 5rem 0;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-about::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(0, 200, 83, 0.2) 0%, transparent 50%);
+        animation: pulse 8s ease-in-out infinite;
+    }
+    
+    .hero-about-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .hero-about h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.03em;
+    }
+    
+    .hero-about p {
+        font-size: 1.375rem;
+        color: rgba(255, 255, 255, 0.95);
+        line-height: 1.6;
+    }
+    
+    .content-section {
+        padding: 5rem 0;
+    }
+    
+    .section-header {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto 4rem;
+    }
+    
+    .section-title {
+        font-size: 2.75rem;
+        font-weight: 800;
+        color: var(--neutral-900);
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+    }
+    
+    .section-subtitle {
+        font-size: 1.25rem;
+        color: var(--neutral-600);
+        line-height: 1.6;
+    }
+    
+    .mission-card {
+        background: white;
+        border-radius: var(--radius-2xl);
+        padding: 3rem;
+        box-shadow: var(--shadow-xl);
+        border: 2px solid var(--neutral-200);
+        height: 100%;
+    }
+    
+    .mission-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-2xl);
+        font-size: 3rem;
+    }
+    
+    .mission-icon-primary {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(21, 101, 192, 0.15) 100%);
+        color: var(--primary-700);
+        border: 3px solid var(--primary-400);
+    }
+    
+    .mission-icon-success {
+        background: linear-gradient(135deg, rgba(0, 200, 83, 0.15) 0%, rgba(0, 191, 165, 0.15) 100%);
+        color: var(--accent-600);
+        border: 3px solid var(--accent-400);
+    }
+    
+    .mission-card h3 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--neutral-900);
+    }
+    
+    .mission-card p {
+        font-size: 1.0625rem;
+        color: var(--neutral-700);
+        line-height: 1.7;
+    }
+    
+    .problem-solution {
+        background: var(--neutral-50);
+    }
+    
+    .ps-card {
+        background: white;
+        border-radius: var(--radius-2xl);
+        padding: 2.5rem;
+        box-shadow: var(--shadow-lg);
+        border: 2px solid var(--neutral-200);
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .ps-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-2xl);
+    }
+    
+    .ps-card h4 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .ps-card h4 i {
+        font-size: 2rem;
+    }
+    
+    .problem-card h4 {
+        color: var(--danger-600);
+    }
+    
+    .problem-card h4 i {
+        color: var(--danger-500);
+    }
+    
+    .solution-card h4 {
+        color: var(--accent-600);
+    }
+    
+    .solution-card h4 i {
+        color: var(--accent-500);
+    }
+    
+    .ps-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .ps-card li {
+        padding: 0.75rem 0;
+        color: var(--neutral-700);
+        font-size: 1rem;
+        line-height: 1.6;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .ps-card li i {
+        color: var(--neutral-500);
+        margin-top: 0.25rem;
+        font-size: 1.125rem;
+        flex-shrink: 0;
+    }
+    
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    
+    .value-card {
+        text-align: center;
+        padding: 2.5rem 2rem;
+        background: white;
+        border-radius: var(--radius-2xl);
+        box-shadow: var(--shadow-lg);
+        border: 2px solid var(--neutral-200);
+        transition: all 0.3s ease;
+    }
+    
+    .value-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-2xl);
+    }
+    
+    .value-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 2rem;
+    }
+    
+    .value-icon-1 {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+        color: #059669;
+        border: 3px solid #10B981;
+    }
+    
+    .value-icon-2 {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(21, 101, 192, 0.15) 100%);
+        color: var(--primary-700);
+        border: 3px solid var(--primary-400);
+    }
+    
+    .value-icon-3 {
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+        color: #7C3AED;
+        border: 3px solid #8B5CF6;
+    }
+    
+    .value-icon-4 {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.15) 100%);
+        color: #D97706;
+        border: 3px solid #F59E0B;
+    }
+    
+    .value-card h5 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: var(--neutral-900);
+    }
+    
+    .value-card p {
+        color: var(--neutral-600);
+        margin: 0;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+    }
+    
+    .stats-banner {
+        background: linear-gradient(135deg, #0A2463 0%, #1565C0 50%, #00C853 100%);
+        padding: 5rem 0;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stats-banner::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 70% 50%, rgba(0, 200, 83, 0.2) 0%, transparent 50%);
+    }
+    
+    .stats-banner-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .stat-item {
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+    
+    .stat-value {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        font-family: var(--font-display);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-label {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.95);
+        font-weight: 500;
+    }
+    
+    .cta-section {
+        padding: 5rem 0;
+        text-align: center;
+        background: var(--neutral-50);
+    }
+    
+    .cta-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.75rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        color: var(--neutral-900);
+    }
+    
+    .cta-content p {
+        font-size: 1.25rem;
+        color: var(--neutral-600);
+        margin-bottom: 2.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-about h1 {
+            font-size: 2.5rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 4rem 0;">
-    <div class="container text-center">
-        <h1 class="display-4">About TrustEscrow Nigeria</h1>
-        <p class="lead">Building trust in every transaction across Nigeria</p>
+<!-- Hero Section -->
+<section class="hero-about">
+    <div class="container">
+        <div class="hero-about-content fade-in-up">
+            <h1>About SafeRelease Nigeria</h1>
+            <p>Building trust in every transaction across Nigeria by protecting both clients and service providers through secure escrow payments.</p>
+        </div>
     </div>
 </section>
 
-<!-- Mission -->
-<section class="py-5">
+<!-- Mission & Vision -->
+<section class="content-section">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h2>Our Mission</h2>
-                <p class="lead">To make online service payments safe, secure, and stress-free for all Nigerians.</p>
-                <p>We believe that trust is the foundation of every successful transaction. That's why we've built a platform that protects both clients and service providers, ensuring that money only changes hands when work is completed satisfactorily.</p>
+        <div class="section-header">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="section-subtitle">Making online service payments safe, secure, and stress-free for all Nigerians</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="mission-card fade-in-up">
+                    <div class="mission-icon mission-icon-primary">
+                        <i class="bi bi-bullseye"></i>
+                    </div>
+                    <h3>Our Mission</h3>
+                    <p>
+                        To make online service payments safe, secure, and stress-free for all Nigerians. 
+                        We believe that trust is the foundation of every successful transaction. That's why 
+                        we've built a platform that protects both clients and service providers, ensuring 
+                        that money only changes hands when work is completed satisfactorily.
+                    </p>
+                </div>
             </div>
-            <div class="col-md-6">
-                <i class="bi bi-bullseye" style="font-size: 12rem; color: var(--primary-color); opacity: 0.2;"></i>
+            
+            <div class="col-lg-6">
+                <div class="mission-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="mission-icon mission-icon-success">
+                        <i class="bi bi-telescope"></i>
+                    </div>
+                    <h3>Our Vision</h3>
+                    <p>
+                        To become Nigeria's most trusted payment platform for service transactions, 
+                        enabling thousands of businesses and freelancers to work with confidence. We envision 
+                        a future where payment disputes are rare, transactions are seamless, and trust is 
+                        the default between clients and service providers.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Why We Built This -->
-<section class="py-5" style="background: #f9fafb;">
+<!-- Problem & Solution -->
+<section class="problem-solution content-section">
     <div class="container">
-        <h2 class="text-center mb-5">Why We Built TrustEscrow</h2>
+        <div class="section-header">
+            <h2 class="section-title">Why We Built SafeRelease</h2>
+            <p class="section-subtitle">We saw real problems affecting real people and decided to solve them</p>
+        </div>
+        
         <div class="row g-4">
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h4><i class="bi bi-shield-x text-danger"></i> The Problem</h4>
-                        <ul class="mt-3">
-                            <li>Freelancers getting scammed after delivering work</li>
-                            <li>Clients paying upfront and getting poor quality or no work</li>
-                            <li>No trusted way to handle payments for services</li>
-                            <li>Disputes with no fair resolution process</li>
-                        </ul>
+            <div class="col-lg-6">
+                <div class="ps-card problem-card fade-in-up">
+                    <h4>
+                        <i class="bi bi-shield-x"></i>
+                        The Problem
+                    </h4>
+                    <ul>
+                        <li>
+                            <i class="bi bi-x-circle"></i>
+                            <span>Freelancers getting scammed after delivering quality work</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-x-circle"></i>
+                            <span>Clients paying upfront and receiving poor quality or no work at all</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-x-circle"></i>
+                            <span>No trusted intermediary to handle payments fairly</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-x-circle"></i>
+                            <span>Disputes with no clear or fair resolution process</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-x-circle"></i>
+                            <span>Fear and hesitation preventing valuable transactions</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="ps-card solution-card fade-in-up" style="animation-delay: 0.1s;">
+                    <h4>
+                        <i class="bi bi-shield-check"></i>
+                        Our Solution
+                    </h4>
+                    <ul>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Secure escrow holds money until work is completed and approved</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Both parties are protected throughout the entire process</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Clear communication channels and dispute resolution system</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Transparent fees with no hidden charges or surprises</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Automated processes that ensure fairness and efficiency</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Values -->
+<section class="content-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Our Core Values</h2>
+            <p class="section-subtitle">The principles that guide everything we do</p>
+        </div>
+        
+        <div class="values-grid">
+            <div class="value-card fade-in-up">
+                <div class="value-icon value-icon-1">
+                    <i class="bi bi-shield-fill-check"></i>
+                </div>
+                <h5>Trust</h5>
+                <p>We build trust between parties who've never met by providing a secure, neutral platform</p>
+            </div>
+            
+            <div class="value-card fade-in-up" style="animation-delay: 0.1s;">
+                <div class="value-icon value-icon-2">
+                    <i class="bi bi-transparency"></i>
+                </div>
+                <h5>Transparency</h5>
+                <p>Clear processes, honest communication, and no hidden fees. What you see is what you get</p>
+            </div>
+            
+            <div class="value-card fade-in-up" style="animation-delay: 0.2s;">
+                <div class="value-icon value-icon-3">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <h5>Fairness</h5>
+                <p>Protecting both clients and service providers equally with unbiased dispute resolution</p>
+            </div>
+            
+            <div class="value-card fade-in-up" style="animation-delay: 0.3s;">
+                <div class="value-icon value-icon-4">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+                <h5>Speed</h5>
+                <p>Fast payments, quick responses, and efficient dispute resolution to keep business moving</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Banner -->
+<section class="stats-banner">
+    <div class="container">
+        <div class="stats-banner-content">
+            <div class="section-header mb-5">
+                <h2 class="section-title" style="color: white;">SafeRelease by the Numbers</h2>
+                <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.9);">Real impact, real results</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value">₦50M+</div>
+                        <div class="stat-label">Secured in Escrow</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value">5,000+</div>
+                        <div class="stat-label">Transactions</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value">2,500+</div>
+                        <div class="stat-label">Happy Users</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Success Rate</div>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h4><i class="bi bi-shield-check text-success"></i> Our Solution</h4>
-                        <ul class="mt-3">
-                            <li>Secure escrow holds money until work is done</li>
-                            <li>Both parties are protected throughout the process</li>
-                            <li>Clear communication and dispute resolution</li>
-                            <li>Transparent fees and automated processes</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>
 
-<!-- Values -->
-<section class="py-5">
+<!-- CTA Section -->
+<section class="cta-section">
     <div class="container">
-        <h2 class="text-center mb-5">Our Core Values</h2>
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="text-center">
-                    <i class="bi bi-shield-fill-check" style="font-size: 3rem; color: #10b981;"></i>
-                    <h5 class="mt-3">Trust</h5>
-                    <p>We build trust between parties who've never met</p>
-                </div>
-            </div>
-            
-            <div class="col-md-3">
-                <div class="text-center">
-                    <i class="bi bi-transparency" style="font-size: 3rem; color: #3b82f6;"></i>
-                    <h5 class="mt-3">Transparency</h5>
-                    <p>Clear processes and no hidden fees</p>
-                </div>
-            </div>
-            
-            <div class="col-md-3">
-                <div class="text-center">
-                    <i class="bi bi-people-fill" style="font-size: 3rem; color: #8b5cf6;"></i>
-                    <h5 class="mt-3">Fairness</h5>
-                    <p>Protecting both clients and service providers</p>
-                </div>
-            </div>
-            
-            <div class="col-md-3">
-                <div class="text-center">
-                    <i class="bi bi-lightning-charge-fill" style="font-size: 3rem; color: #f59e0b;"></i>
-                    <h5 class="mt-3">Speed</h5>
-                    <p>Fast payments and quick dispute resolution</p>
-                </div>
-            </div>
+        <div class="cta-content">
+            <h2>Ready to Join SafeRelease?</h2>
+            <p>Start protecting your transactions today. Join thousands of Nigerians who trust SafeRelease for their service payments.</p>
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-rocket-takeoff me-2"></i>
+                Get Started Free
+            </a>
         </div>
-    </div>
-</section>
-
-<!-- Stats -->
-<section class="py-5" style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white;">
-    <div class="container">
-        <h2 class="text-center mb-5">TrustEscrow by the Numbers</h2>
-        <div class="row text-center">
-            <div class="col-md-3">
-                <div class="display-4">₦50M+</div>
-                <p class="lead">Secured in Escrow</p>
-            </div>
-            <div class="col-md-3">
-                <div class="display-4">5,000+</div>
-                <p class="lead">Transactions</p>
-            </div>
-            <div class="col-md-3">
-                <div class="display-4">2,500+</div>
-                <p class="lead">Happy Users</p>
-            </div>
-            <div class="col-md-3">
-                <div class="display-4">98%</div>
-                <p class="lead">Success Rate</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA -->
-<section class="py-5">
-    <div class="container text-center">
-        <h2>Ready to Join TrustEscrow?</h2>
-        <p class="lead text-muted">Start protecting your transactions today</p>
-        <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg mt-3">
-            <i class="bi bi-person-plus"></i> Get Started Free
-        </a>
     </div>
 </section>
 {% endblock %}

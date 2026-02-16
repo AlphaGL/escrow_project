@@ -1,5 +1,5 @@
 """
-Custom User Model for TrustEscrow Nigeria
+Custom User Model for SafeRelease Nigeria
 Supports both clients and service providers
 """
 from django.contrib.auth.models import AbstractUser

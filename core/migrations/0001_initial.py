@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "site_name",
-                    models.CharField(default="TrustEscrow Nigeria", max_length=100),
+                    models.CharField(default="SafeRelease Nigeria", max_length=100),
                 ),
                 (
                     "site_description",
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "support_email",
-                    models.EmailField(default="support@trustescrow.ng", max_length=254),
+                    models.EmailField(default="support@SafeRelease.ng", max_length=254),
                 ),
                 (
                     "support_phone",

@@ -1,4 +1,4 @@
-# TrustEscrow Nigeria - Complete Setup Guide
+# SafeRelease Nigeria - Complete Setup Guide
 
 ## 📋 Table of Contents
 1. [System Requirements](#system-requirements)
@@ -82,7 +82,7 @@ EMAIL_HOST_USER=your-email@gmail.com
 EMAIL_HOST_PASSWORD=your-gmail-app-password
 
 # Site Settings
-SITE_NAME=TrustEscrow Nigeria
+SITE_NAME=SafeRelease Nigeria
 SITE_URL=http://localhost:8000
 AUTO_RELEASE_DAYS=5
 PLATFORM_FEE_PERCENTAGE=2.5
@@ -107,7 +107,7 @@ python manage.py migrate
 python manage.py createsuperuser
 
 # Enter:
-# Email address: admin@trustescrow.ng
+# Email address: admin@SafeRelease.ng
 # Username: admin
 # First name: Admin
 # Last name: User
@@ -127,8 +127,8 @@ from accounts.models import User
 
 # Create site settings
 settings = SiteSettings.objects.create(
-    site_name='TrustEscrow Nigeria',
-    support_email='support@trustescrow.ng',
+    site_name='SafeRelease Nigeria',
+    support_email='support@SafeRelease.ng',
     support_phone='+234 800 000 0000'
 )
 
@@ -326,7 +326,7 @@ exit()
 2. **Login and Create App**
    ```bash
    heroku login
-   heroku create trustescrow-ng
+   heroku create SafeRelease-ng
    ```
 
 3. **Add PostgreSQL and Redis**

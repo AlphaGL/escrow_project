@@ -66,7 +66,7 @@ def initiate_payment(request, transaction_id):
         return redirect('transactions:detail', transaction_id=transaction.id)
 
 
-@login_required
+@csrf_exempt
 def verify_payment(request):
     """Verify payment from Paystack callback"""
     reference = request.GET.get('reference')

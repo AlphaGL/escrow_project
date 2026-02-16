@@ -1,4 +1,4 @@
-# TrustEscrow Nigeria - Customization & Extension Guide
+# SafeRelease Nigeria - Customization & Extension Guide
 
 ## 🎨 Customization Guide
 
@@ -42,7 +42,7 @@ Create `templates/emails/transaction_created.html`:
 </head>
 <body>
     <div class="header">
-        <h1>TrustEscrow Nigeria</h1>
+        <h1>SafeRelease Nigeria</h1>
     </div>
     <div class="content">
         <h2>New Transaction Created</h2>
@@ -621,14 +621,14 @@ Create `templates/emails/base_email.html`:
 <body>
     <div class="container">
         <div class="header">
-            <h1>🛡️ TrustEscrow Nigeria</h1>
+            <h1>🛡️ SafeRelease Nigeria</h1>
         </div>
         <div class="content">
             {% block content %}{% endblock %}
         </div>
         <div class="footer">
-            <p>© 2024 TrustEscrow Nigeria. All rights reserved.</p>
-            <p>Questions? Contact us at support@trustescrow.ng</p>
+            <p>© 2024 SafeRelease Nigeria. All rights reserved.</p>
+            <p>Questions? Contact us at support@SafeRelease.ng</p>
         </div>
     </div>
 </body>

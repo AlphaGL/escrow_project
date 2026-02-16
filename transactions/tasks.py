@@ -57,10 +57,10 @@ Service: {transaction.service_description}
 
 You did not raise any disputes within the {settings.AUTO_RELEASE_DAYS}-day review period.
 
-Thank you for using TrustEscrow Nigeria!
+Thank you for using SafeRelease Nigeria!
 
 Best regards,
-The TrustEscrow Team
+The SafeRelease Team
             ''',
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[transaction.client.email],
@@ -81,10 +81,10 @@ Client: {transaction.client.get_full_name()}
 
 The funds are now available in your wallet.
 
-Thank you for using TrustEscrow Nigeria!
+Thank you for using SafeRelease Nigeria!
 
 Best regards,
-The TrustEscrow Team
+The SafeRelease Team
             ''',
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[transaction.service_provider.email],
@@ -130,7 +130,7 @@ After that, the payment will be automatically released.
 Review now: {settings.SITE_URL}/transactions/{transaction.id}/
 
 Best regards,
-The TrustEscrow Team
+The SafeRelease Team
                 ''',
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[transaction.client.email],
@@ -163,7 +163,7 @@ Your Earnings (after fees): ₦{transaction.service_provider_amount:,.2f}
 View details: {settings.SITE_URL}/transactions/{transaction.id}/
 
 Best regards,
-The TrustEscrow Team
+The SafeRelease Team
                 ''',
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[transaction.service_provider.email],
@@ -184,7 +184,7 @@ The service provider will now begin work.
 View transaction: {settings.SITE_URL}/transactions/{transaction.id}/
 
 Best regards,
-The TrustEscrow Team
+The SafeRelease Team
                 ''',
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[transaction.client.email],
@@ -209,7 +209,7 @@ Auto-release in {settings.AUTO_RELEASE_DAYS} days if no action taken.
 Review now: {settings.SITE_URL}/transactions/{transaction.id}/
 
 Best regards,
-The TrustEscrow Team
+The SafeRelease Team
                 ''',
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[transaction.client.email],

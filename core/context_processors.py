@@ -14,6 +14,6 @@ def site_settings(request):
     
     return {
         'site_config': site_config,
-        'SITE_NAME': getattr(settings, 'SITE_NAME', 'TrustEscrow Nigeria'),
+        'SITE_NAME': getattr(settings, 'SITE_NAME', 'SafeRelease Nigeria'),
         'PAYSTACK_PUBLIC_KEY': getattr(settings, 'PAYSTACK_PUBLIC_KEY', ''),
     }

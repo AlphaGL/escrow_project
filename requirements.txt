@@ -1,4 +1,4 @@
-# TrustEscrow Nigeria - Requirements
+# SafeRelease Nigeria - Requirements
 # Minimal setup for development and testing
 
 # Core Django
