@@ -8,8 +8,9 @@ djangorestframework==3.14.0
 # Environment & Configuration
 python-decouple==3.8
 
-# Database (SQLite is built-in, PostgreSQL is optional)
-# psycopg2-binary==2.9.9  # Uncomment if using PostgreSQL
+# Database
+psycopg2-binary==2.9.9
+dj-database-url==2.1.0
 
 # Image handling
 Pillow==10.1.0
@@ -34,3 +35,6 @@ gunicorn==21.2.0
 celery==5.3.4
 redis==5.0.1
 django-celery-beat==2.5.0
+
+# Cloudinary for image storage
+cloudinary==1.36.0

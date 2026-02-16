@@ -5,6 +5,7 @@ Supports both clients and service providers
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import RegexValidator
+from cloudinary.models import CloudinaryField
 
 class User(AbstractUser):
     """Custom user model with extended fields"""
@@ -34,8 +35,7 @@ class User(AbstractUser):
     )
     
     # Profile fields
-    profile_image = models.ImageField(
-        upload_to='profiles/',
+    profile_image = CloudinaryField('profiles/',
         null=True,
         blank=True,
         default='profiles/default.png'
