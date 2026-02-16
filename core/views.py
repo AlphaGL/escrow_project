@@ -6,7 +6,39 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Sum, Count
 from transactions.models import Transaction
 from .models import FAQ, Testimonial
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
+
+def love_page(request):
+    """
+    Displays the romantic message page with access code protection.
+    The access code is 'FOREVER' (case-insensitive).
+    
+    This is a special page created to express feelings to someone special.
+    """
+    return render(request, 'love_page.html')
+
+
+# Optional: If you want server-side validation instead of JavaScript
+@csrf_exempt
+def validate_access(request):
+    """
+    Optional view to validate access code on the server side.
+    Returns JSON response indicating if access is granted.
+    """
+    if request.method == 'POST':
+        code = request.POST.get('code', '').strip().upper()
+        
+        # The secret access code
+        SECRET_CODE = 'FOREVER'
+        
+        if code == SECRET_CODE:
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'message': 'Incorrect code'})
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 def home(request):
     """Homepage view"""
