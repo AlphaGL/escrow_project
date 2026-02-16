@@ -1,7 +1,7 @@
 {
     "builds": [
         {
-            "src": "crypto_platform/wsgi.py",
+            "src": "config/wsgi.py",
             "use": "@vercel/python",
             "config" : {
                 "maxLambdaSize": "15mb",
@@ -13,7 +13,7 @@
     "routes":[
         {
             "src": "/(.*)",
-            "dest": "crypto_platform/wsgi.py"
+            "dest": "config/wsgi.py"
         },
         {
             "src": "/static/(.*)",
